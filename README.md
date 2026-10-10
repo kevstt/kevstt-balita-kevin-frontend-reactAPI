@@ -1,6 +1,6 @@
-# Fieldnote Product Inventory
+# LavaLust Product Frontend
 
-Standalone React frontend for the LavaLust product API. The browser sends requests only to the API; it never connects directly to MySQL.
+Standalone React frontend for the LavaLust API backend. The browser sends requests only to the API; it never connects directly to MySQL. The standalone Render build is configured to use `https://balita-kevin-lavalust-migration-api-1.onrender.com/api` by default.
 
 ## Run locally
 
@@ -12,15 +12,15 @@ The app supports registration, sign-in, and product create/read/update/delete. A
 
 ## Build and deploy as a separate frontend
 
-Use the standalone Vite mode when hosting this project separately from the LavaLust API:
+Deploy this repository as a Render **Static Site** with these settings:
 
-```sh
-npm run build -- --mode standalone
-```
+- Build command: `npm ci && npm run build -- --mode standalone`
+- Publish directory: `dist`
+- Build environment variable `VITE_API_BASE_URL`: the public LavaLust API URL ending in `/api` (the checked-in `.env.standalone` supplies the current API URL; a Render environment value overrides it)
 
-The build output is `dist/`. For a static host such as Render, use `npm ci && npm run build -- --mode standalone` as the build command and `dist` as the publish directory. Set `VITE_API_BASE_URL` in the host's build-time environment to the public LavaLust API URL ending in `/api`, for example `https://your-api.example.com/api`.
+The API Render service must set `CORS_ALLOWED_ORIGIN` to the exact public origin Render assigns to this Static Site, without a trailing slash. The browser needs this permission to call the API from the frontend domain. Keep API secrets and all database credentials in the API host's environment; never put them in this frontend project.
 
-Also set `CORS_ALLOWED_ORIGIN` in the API's environment to the exact public frontend origin, such as `https://your-frontend.onrender.com`. These settings contain URLs, not database credentials. Keep API secrets and all database credentials in the API host's environment; never put them in this frontend project.
+To build against a different API, override `VITE_API_BASE_URL` in the frontend host's build environment. For local development, `.env.example` points to `http://127.0.0.1:3000/api` and the API's `CORS_ALLOWED_ORIGIN` should allow the local Vite origin.
 
 ## Publish this directory as its own GitHub repository
 
@@ -35,4 +35,4 @@ git remote add origin https://github.com/YOUR-USERNAME/YOUR-FRONTEND-REPOSITORY.
 git push -u origin main
 ```
 
-The `.gitignore` excludes `.env`, dependencies, and build output.
+The `.gitignore` excludes `.env`, dependencies, and build output. `.env.standalone` contains only the public API URL used by the standalone build.
