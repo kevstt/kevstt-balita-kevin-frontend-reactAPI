@@ -6,7 +6,6 @@ import {
   Check,
   ChevronDown,
   CircleAlert,
-  CircleDollarSign,
   Eye,
   EyeOff,
   LayoutDashboard,
@@ -292,10 +291,10 @@ function App() {
           </div>
 
           <div className="summary-grid">
-            <SummaryCard label="Products listed" value={products.length.toLocaleString()} detail="Across your inventory" icon={<Boxes size={19} />} color="green" />
-            <SummaryCard label="Units in stock" value={summary.units.toLocaleString()} detail="Total available quantity" icon={<PackagePlus size={19} />} color="blue" />
-            <SummaryCard label="Stock value" value={currency(summary.value)} detail="Based on current price" icon={<CircleDollarSign size={19} />} color="amber" />
-            <SummaryCard label="Low stock" value={summary.low.toLocaleString()} detail="Fewer than 5 units" icon={<CircleAlert size={19} />} color="rose" />
+            <SummaryCard label="Products listed" value={products.length.toLocaleString()} detail="Across your inventory" />
+            <SummaryCard label="Units in stock" value={summary.units.toLocaleString()} detail="Total available quantity" />
+            <SummaryCard label="Stock value" value={currency(summary.value)} detail="Based on current price" />
+            <SummaryCard label="Low stock" value={summary.low.toLocaleString()} detail="Fewer than 5 units" />
           </div>
 
           <section className="inventory-panel" aria-labelledby="inventory-title">
@@ -341,10 +340,10 @@ function OverviewPage({ products, summary, loading, error, notice, noticeId, onD
     </div>
 
     <div className="summary-grid">
-      <SummaryCard label="Products listed" value={products.length.toLocaleString()} detail="Across your inventory" icon={<Boxes size={19} />} color="green" />
-      <SummaryCard label="Units in stock" value={summary.units.toLocaleString()} detail="Total available quantity" icon={<PackagePlus size={19} />} color="blue" />
-      <SummaryCard label="Stock value" value={currency(summary.value)} detail="Based on current price" icon={<CircleDollarSign size={19} />} color="amber" />
-      <SummaryCard label="Low stock" value={summary.low.toLocaleString()} detail="Fewer than 5 units" icon={<CircleAlert size={19} />} color="rose" />
+      <SummaryCard label="Products listed" value={products.length.toLocaleString()} detail="Across your inventory" />
+      <SummaryCard label="Units in stock" value={summary.units.toLocaleString()} detail="Total available quantity" />
+      <SummaryCard label="Stock value" value={currency(summary.value)} detail="Based on current price" />
+      <SummaryCard label="Low stock" value={summary.low.toLocaleString()} detail="Fewer than 5 units" />
     </div>
 
     {error && <div className="inline-error" role="alert">{error}<button type="button" onClick={() => window.location.reload()}>Retry</button></div>}
@@ -373,8 +372,8 @@ function OverviewPage({ products, summary, loading, error, notice, noticeId, onD
   </section>
 }
 
-function SummaryCard({ label, value, detail, icon, color }) {
-  return <article className="summary-card"><span className={`summary-icon ${color}`}>{icon}</span><div className="summary-copy"><span>{label}</span><strong>{value}</strong><small>{detail}</small></div><ArrowRight className="summary-arrow" size={15} /></article>
+function SummaryCard({ label, value, detail }) {
+  return <article className="summary-card"><div className="summary-copy"><span>{label}</span><strong>{value}</strong><small>{detail}</small></div></article>
 }
 
 function ThemeButton({ theme, onToggle }) {
@@ -407,8 +406,8 @@ function AuthScreen({ onAuthenticate, theme, onToggleTheme }) {
   }
 
   return <main className="auth-screen" data-theme={theme}>
-    <section className="auth-story"><a className="brand light" href="#signin"><span className="brand-mark"><ShoppingBag size={18} /></span><span>fieldnote<span className="brand-period">.</span></span></a><div className="story-copy"><span className="story-kicker"><i /> INVENTORY, WITH INTENTION</span><h1>Make room<br />for <em>what matters.</em></h1><p>A quieter, clearer way to keep track of the things you make and sell.</p><div className="story-rule" /><div className="story-foot"><span>01 / PRODUCT WORKSPACE</span><span>BUILT FOR SMALL BUSINESS</span></div></div><div className="story-orbit orbit-one" /><div className="story-orbit orbit-two" /><span className="story-leaf">✳</span></section>
-    <section className="auth-side" id="signin"><ThemeButton theme={theme} onToggle={onToggleTheme} /><div className="auth-form-wrap"><div className="auth-mobile-brand"><span className="brand-mark"><ShoppingBag size={17} /></span> fieldnote<span className="brand-period">.</span></div><div className="auth-heading"><p className="eyebrow">YOUR WORKSPACE AWAITS</p><h2>{mode === 'login' ? 'Welcome back.' : 'Start with the basics.'}</h2><p>{mode === 'login' ? 'Sign in to pick up where you left off.' : 'Create an account to manage your product catalog.'}</p></div><form className="auth-form" onSubmit={submit}>
+    <section className="auth-story"><div className="story-copy"><h1>Make room<br />for <em>what matters.</em></h1><p>A quieter, clearer way to keep track of the things you make and sell.</p></div><div className="story-orbit orbit-one" /><div className="story-orbit orbit-two" /></section>
+    <section className="auth-side" id="signin"><ThemeButton theme={theme} onToggle={onToggleTheme} /><div className="auth-form-wrap"><div className="auth-heading"><h2>{mode === 'login' ? 'Welcome back.' : 'Start with the basics.'}</h2><p>{mode === 'login' ? 'Sign in to pick up where you left off.' : 'Create an account to manage your product catalog.'}</p></div><form className="auth-form" onSubmit={submit}>
       {mode === 'register' && <label>Username<input required maxLength="100" autoComplete="username" value={values.username} onChange={(event) => setValues({ ...values, username: event.target.value })} placeholder="Your name" /></label>}
       {mode === 'register' ? <label>Email address<input required type="email" autoComplete="email" value={values.email} onChange={(event) => setValues({ ...values, email: event.target.value })} placeholder="you@studio.com" /></label> : <label>Email or username<input required autoComplete="username" value={values.identity} onChange={(event) => setValues({ ...values, identity: event.target.value })} placeholder="you@studio.com" /></label>}
       <label>Password<span className="password-input-wrap"><input required type={showPassword ? 'text' : 'password'} minLength="8" autoComplete={mode === 'login' ? 'current-password' : 'new-password'} value={values.password} onChange={(event) => setValues({ ...values, password: event.target.value })} placeholder="At least 8 characters" /><button className="password-toggle" type="button" onClick={() => setShowPassword((visible) => !visible)} aria-label={showPassword ? 'Hide password' : 'Show password'} aria-pressed={showPassword} title={showPassword ? 'Hide password' : 'Show password'}>{showPassword ? <EyeOff size={17} /> : <Eye size={17} />}</button></span></label>
