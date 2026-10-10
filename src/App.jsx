@@ -24,11 +24,15 @@ import {
 } from 'lucide-react'
 import './App.css'
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || (import.meta.env.MODE === 'standalone'
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL || (import.meta.env.MODE === 'standalone'
   ? ''
   : import.meta.env.DEV
     ? 'http://127.0.0.1:3000/api'
-    : `${window.location.origin}/api`)).replace(/\/+$/, '')
+    : `${window.location.origin}/api`)
+const trimmedApiBaseUrl = configuredApiBaseUrl.trim().replace(/\/+$/, '')
+const API_BASE_URL = trimmedApiBaseUrl
+  ? (/\/api$/i.test(trimmedApiBaseUrl) ? trimmedApiBaseUrl : `${trimmedApiBaseUrl}/api`)
+  : ''
 const SESSION_KEY = 'fieldnote_session'
 
 function readSession() {
